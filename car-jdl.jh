@@ -1,0 +1,22 @@
+
+entity Car {	
+model String required	
+}
+		
+entity Document {	
+title String required
+size Long required			
+mimeType String
+}
+
+entity Content {			
+data Blob required
+}
+
+relationship OneToOne {			
+Document{content} to Content{document(id) required}
+}
+
+relationship OneToMany {	
+Car{document} to Document{car(id) required}
+}
