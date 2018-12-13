@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="document">
+            <h2><span>Document</span> {{document.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Title</span></dt>
+                <dd>
+                    <span>{{document.title}}</span>
+                </dd>
+                <dt><span>Size</span></dt>
+                <dd>
+                    <span>{{document.size}}</span>
+                </dd>
+                <dt><span>Mime Type</span></dt>
+                <dd>
+                    <span>{{document.mimeType}}</span>
+                </dd>
+                <dt><span>Content</span></dt>
+                <dd>
+                    <div *ngIf="document.content">
+                        <a [routerLink]="['/content', document.content?.id, 'view']">{{document.content?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Car</span></dt>
+                <dd>
+                    <div *ngIf="document.car">
+                        <a [routerLink]="['/car', document.car?.id, 'view']">{{document.car?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/document', document.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
