@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-content-heading">Create or edit a Content</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!content.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="content.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_data">Data</label>
+                    <div>
+                        <div *ngIf="content.data" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(content.dataContentType, content.data)">open</a><br>
+                            <span class="pull-left">{{content.dataContentType}}, {{byteSize(content.data)}}</span>
+                            <button type="button" (click)="content.data=null;content.dataContentType=null;"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon [icon]="'times'"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_data" (change)="setFileData($event, content, 'data', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="data" id="field_data"
+                        [(ngModel)]="content.data" required/>
+                    <input type="hidden" class="form-control" name="dataContentType" id="field_dataContentType"
+                        [(ngModel)]="content.dataContentType" />
+                    <div [hidden]="!(editForm.controls.data?.dirty && editForm.controls.data?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.data?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div [hidden]="!(editForm.controls.document?.dirty && editForm.controls.document?.invalid)">
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.document?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

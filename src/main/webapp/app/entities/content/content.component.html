@@ -1,0 +1,57 @@
+<div>
+    <h2 id="page-heading">
+        <span>Contents</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-content" [routerLink]="['/content/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Content
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="contents">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Data</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let content of contents ;trackBy: trackId">
+                <td><a [routerLink]="['/content', content.id, 'view' ]">{{content.id}}</a></td>
+                <td>
+                    <a *ngIf="content.data" (click)="openFile(content.dataContentType, content.data)">open</a>
+                    <span *ngIf="content.data">{{content.dataContentType}}, {{byteSize(content.data)}}</span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/content', content.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/content', content.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'content/'+ content.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
