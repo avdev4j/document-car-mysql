@@ -4,10 +4,13 @@ import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.application.domain.Document;
 import io.github.jhipster.application.repository.DocumentRepository;
 import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
+import io.github.jhipster.application.web.rest.errors.DocumentNotFoundException;
 import io.github.jhipster.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +36,18 @@ public class DocumentResource {
 
     public DocumentResource(DocumentRepository documentRepository) {
         this.documentRepository = documentRepository;
+    }
+
+    @GetMapping("/documents/{id}/$content")
+    @Timed
+    public ResponseEntity<byte[]> getDocumentContent(@PathVariable Long id) {
+    Document document = documentRepository.findOneById(id)
+        .orElseThrow(DocumentNotFoundException::new);
+
+    return ResponseEntity.ok()
+        .contentType(MediaType.parseMediaType(document.getMimeType()))
+        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getTitle() + "\"")
+        .body(document.retrieveContent());
     }
 
     /**

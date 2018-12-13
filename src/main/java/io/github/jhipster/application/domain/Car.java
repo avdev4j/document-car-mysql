@@ -30,7 +30,7 @@ public class Car implements Serializable {
     @Column(name = "model", nullable = false)
     private String model;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Document> documents = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

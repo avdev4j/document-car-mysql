@@ -13,6 +13,7 @@ import { CarService } from './car.service';
 export class CarUpdateComponent implements OnInit {
     car: ICar;
     isSaving: boolean;
+    files: FileList;
 
     constructor(private carService: CarService, private activatedRoute: ActivatedRoute) {}
 
@@ -27,12 +28,16 @@ export class CarUpdateComponent implements OnInit {
         window.history.back();
     }
 
+    handleFileInput(files: FileList) {
+        this.files = files;
+    }
+
     save() {
         this.isSaving = true;
         if (this.car.id !== undefined) {
             this.subscribeToSaveResponse(this.carService.update(this.car));
         } else {
-            this.subscribeToSaveResponse(this.carService.create(this.car));
+            this.subscribeToSaveResponse(this.carService.createV2(this.car, this.files));
         }
     }
 

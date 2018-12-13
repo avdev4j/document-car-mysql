@@ -10,6 +10,14 @@
                     <span>{{car.model}}</span>
                 </dd>
             </dl>
+            <dl class="row-md jh-entity-details" *ngFor="let document of car.documents">
+                <dt>
+                    <span>
+                        <a (click)="downloadDocument(document)">{{document.title}}</a>
+                    </span>
+                </dt>
+            </dl>
+         
 
             <button type="submit"
                     (click)="previousState()"

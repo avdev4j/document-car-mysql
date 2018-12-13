@@ -4,6 +4,7 @@ import io.github.jhipster.application.DocumentCarMysqlApp;
 
 import io.github.jhipster.application.domain.Car;
 import io.github.jhipster.application.repository.CarRepository;
+import io.github.jhipster.application.service.mapper.DocumentMapper;
 import io.github.jhipster.application.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -44,6 +45,9 @@ public class CarResourceIntTest {
 
     @Autowired
     private CarRepository carRepository;
+    
+    @Autowired
+    private DocumentMapper documentMapper;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -64,7 +68,7 @@ public class CarResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CarResource carResource = new CarResource(carRepository);
+        final CarResource carResource = new CarResource(carRepository, documentMapper);
         this.restCarMockMvc = MockMvcBuilders.standaloneSetup(carResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
